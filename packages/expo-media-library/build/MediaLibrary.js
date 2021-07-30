@@ -1,5 +1,5 @@
 import { EventEmitter, UnavailabilityError } from '@unimodules/core';
-import { PermissionStatus, } from 'expo-modules-core';
+import { PermissionStatus, createPermissionHook, } from 'expo-modules-core';
 import { Platform } from 'react-native';
 import MediaLibrary from './ExponentMediaLibrary';
 const eventEmitter = new EventEmitter(MediaLibrary);
@@ -68,6 +68,20 @@ export async function getPermissionsAsync(writeOnly = false) {
     }
     return await MediaLibrary.getPermissionsAsync(writeOnly);
 }
+// @needsAudit
+/**
+ * Check or request permissions to access the media library.
+ * This uses both `requestPermissionsAsync` and `getPermissionsAsync` to interact with the permissions.
+ *
+ * @example
+ * ```ts
+ * const [status, requestPermission] = MediaLibrary.usePermissions();
+ * ```
+ */
+export const usePermissions = createPermissionHook({
+    getMethod: getPermissionsAsync,
+    requestMethod: requestPermissionsAsync,
+});
 /**
  * @iOS-only
  * @throws Will throw an error if called on platform that doesn't support this functionality (eg. iOS < 14, Android, etc.).

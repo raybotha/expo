@@ -1,5 +1,5 @@
 import { Subscription } from '@unimodules/core';
-import { PermissionResponse as EXPermissionResponse, PermissionStatus, PermissionExpiration } from 'expo-modules-core';
+import { PermissionResponse as EXPermissionResponse, PermissionStatus, PermissionExpiration, PermissionHookOptions } from 'expo-modules-core';
 export declare type PermissionResponse = EXPermissionResponse & {
     accessPrivileges?: 'all' | 'limited' | 'none';
 };
@@ -86,12 +86,22 @@ export declare type PagedInfo<T> = {
 };
 export declare type AssetRef = Asset | string;
 export declare type AlbumRef = Album | string;
-export { PermissionStatus, PermissionExpiration };
+export { PermissionStatus, PermissionExpiration, PermissionHookOptions };
 export declare const MediaType: MediaTypeObject;
 export declare const SortBy: SortByObject;
 export declare function isAvailableAsync(): Promise<boolean>;
 export declare function requestPermissionsAsync(writeOnly?: boolean): Promise<PermissionResponse>;
 export declare function getPermissionsAsync(writeOnly?: boolean): Promise<PermissionResponse>;
+/**
+ * Check or request permissions to access the media library.
+ * This uses both `requestPermissionsAsync` and `getPermissionsAsync` to interact with the permissions.
+ *
+ * @example
+ * ```ts
+ * const [status, requestPermission] = MediaLibrary.usePermissions();
+ * ```
+ */
+export declare const usePermissions: (options?: PermissionHookOptions | undefined) => [EXPermissionResponse | null, () => Promise<EXPermissionResponse | null>, () => Promise<EXPermissionResponse | null>];
 /**
  * @iOS-only
  * @throws Will throw an error if called on platform that doesn't support this functionality (eg. iOS < 14, Android, etc.).

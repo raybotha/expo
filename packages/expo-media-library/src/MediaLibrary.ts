@@ -3,6 +3,8 @@ import {
   PermissionResponse as EXPermissionResponse,
   PermissionStatus,
   PermissionExpiration,
+  PermissionHookOptions,
+  createPermissionHook,
 } from 'expo-modules-core';
 import { Platform } from 'react-native';
 
@@ -123,7 +125,7 @@ export type PagedInfo<T> = {
 export type AssetRef = Asset | string;
 export type AlbumRef = Album | string;
 
-export { PermissionStatus, PermissionExpiration };
+export { PermissionStatus, PermissionExpiration, PermissionHookOptions };
 
 function arrayize(item: any): any[] {
   if (Array.isArray(item)) {
@@ -202,6 +204,21 @@ export async function getPermissionsAsync(writeOnly: boolean = false): Promise<P
   }
   return await MediaLibrary.getPermissionsAsync(writeOnly);
 }
+
+// @needsAudit
+/**
+ * Check or request permissions to access the media library.
+ * This uses both `requestPermissionsAsync` and `getPermissionsAsync` to interact with the permissions.
+ *
+ * @example
+ * ```ts
+ * const [status, requestPermission] = MediaLibrary.usePermissions();
+ * ```
+ */
+export const usePermissions = createPermissionHook({
+  getMethod: getPermissionsAsync,
+  requestMethod: requestPermissionsAsync,
+});
 
 /**
  * @iOS-only
