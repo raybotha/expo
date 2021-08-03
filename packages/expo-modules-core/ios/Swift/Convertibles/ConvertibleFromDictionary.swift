@@ -2,46 +2,76 @@
 /**
  A protocol that allows initializing the object with a dictionary.
  */
-public protocol ConvertibleFromDictionary: AnyMethodArgument {
+public protocol DictionaryConvertible: AnyMethodArgument {
   init()
-  init(dictionary: [AnyHashable : Any?])
+  init(dictionary: [AnyHashable: Any?])
 }
 
 /**
- Provides the default implementation of `ConvertibleFromDictionary` protocol.
+ Provides the default implementation of `DictionaryConvertible` protocol.
  */
-extension ConvertibleFromDictionary {
-  init(dictionary: [AnyHashable : Any?]) {
+extension DictionaryConvertible {
+  /**
+   Initializes an object from given dictionary. Only members wrapped by `@bind` will be set in the object.
+   */
+  init(dictionary: [AnyHashable: Any?]) {
     self.init()
-    let mirror = Mirror(reflecting: self)
 
-    for (label, value) in mirror.children {
-      guard let label = label else {
-        continue
-      }
-
-      let key = label.starts(with: "_") ? String(label.dropFirst()) : label
-
-      if let value = value as? AnyDictionaryValue {
-        if let valueInDict = dictionary[key] {
-          value.set(valueInDict)
-        }
-      }
+    forEachBoundMember(self) { key, binding in
+      binding.set(dictionary[key] as Any)
     }
+  }
+
+  /**
+   Converts an object back to the dictionary. Only members wrapped by `@bind` will be set in the dictionary.
+   */
+  public func toDictionary() -> [String: Any?] {
+    var dict = [String: Any?]()
+
+    forEachBoundMember(self) { key, binding in
+      dict[key] = binding.get()
+    }
+    return dict
   }
 }
 
-protocol AnyDictionaryValue {
+protocol AnyBinding {
+  var customKey: String? { get }
+
   func get() -> Any?
   func set(_ newValue: Any?)
 }
 
-@propertyWrapper
-public class DictionaryValue<Type>: AnyDictionaryValue {
-  public private(set) var wrappedValue: Type
+fileprivate func forEachBoundMember(_ object: DictionaryConvertible, _ closure: (String, AnyBinding) -> Void) {
+  Mirror(reflecting: object).children.forEach { (label, value) in
+    guard let value = value as? AnyBinding,
+          let key = value.customKey ?? normalizeMirrorChildLabel(label) else {
+      return
+    }
+    closure(key, value)
+  }
+}
 
-  public init(wrappedValue: Type) {
-    self.wrappedValue = wrappedValue
+fileprivate func normalizeMirrorChildLabel(_ label: String?) -> String? {
+  return (label != nil && label!.starts(with: "_")) ? String(label!.dropFirst()) : label
+}
+
+@propertyWrapper
+public class bind<Type>: AnyBinding {
+  public var wrappedValue: Type {
+    return internalValue!
+  }
+
+  private(set) var internalValue: Type?
+  private(set) var customKey: String?
+
+  public init(key: String? = nil) {
+    self.customKey = key
+  }
+
+  public init(wrappedValue: Type, key: String? = nil) {
+    self.internalValue = wrappedValue
+    self.customKey = key
   }
 
   func get() -> Any? {
@@ -49,6 +79,10 @@ public class DictionaryValue<Type>: AnyDictionaryValue {
   }
 
   func set(_ newValue: Any?) {
-    self.wrappedValue = newValue as! Type
+    self.internalValue = newValue as? Type
   }
+}
+
+struct MyOptions: DictionaryConvertible {
+  @bind var option: String?
 }

@@ -4,6 +4,10 @@ import XCTest
 
 let methodName = "test method name"
 
+struct TestStruct: DictionaryConvertible {
+  @bind var option: String = ""
+}
+
 class MethodCallsTests: XCTestCase {
   var appContext: AppContext!
 
@@ -56,6 +60,22 @@ class MethodCallsTests: XCTestCase {
   func test_methodReturningStrings() {
     test_methodReturning(value: "a string")
     test_methodReturning(value: ["expo", "modules", "core"])
+  }
+
+  func test_methodWithStructs() {
+    let expect = expectation(description: "method gets called")
+    let module = CustomModule(appContext: appContext) {
+      $0.method(methodName) { (a: TestStruct) in
+        return a.option
+      }
+    }
+
+    let dict = ["option": "test"]
+    ModuleHolder(module: module).call(method: methodName, args: [dict]) { value, error in
+      XCTAssertEqual(value as? String, dict["option"])
+      expect.fulfill()
+    }
+    waitForExpectations(timeout: 1)
   }
 
   func test_tooManyArguments() {
