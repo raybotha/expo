@@ -14,7 +14,7 @@
 ### 🐛 Bug fixes
 
 - Fix `PROJECT_ROOT` path resolution in `create-manifest-ios.sh` and in `createManifest.js` ([#13439](https://github.com/expo/expo/pull/13439) by [@ajsmth](https://github.com/ajsmth))
-- Fix config plugin to properly set the updates URL based on `getAccountUsername` from `@expo/config`.
+- Fix config plugin to properly set the updates URL based on `getAccountUsername` from `@expo/config`. ([#13909](https://github.com/expo/expo/pull/13909) by [@brentvatne](https://github.com/brentvatne))
 
 ### 💡 Others
 
