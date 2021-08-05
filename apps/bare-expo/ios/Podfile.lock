@@ -1158,7 +1158,7 @@ SPEC CHECKSUMS:
   EXBrightness: 4532d07a5c34ddc887e1b85eeaff42eef6882bb1
   EXCalendar: 69cfd91805f2070e0b2dc0f48d39f08d915a2de1
   EXCamera: d39ee631cecae1722c12a0b5fe4651a09b262863
-  EXCellular: 73ab436dd57f6b79ce5d6d542f930fc790dac19c
+  EXCellular: c023099c6d53230d69c03a0ed0b515fbf2ffc5eb
   EXClipboard: 247c22246c4843351f2f89cc29b654ecd936eaa8
   EXConstants: 0c200d22d140d3f1834dc51c4ebe0465ddaa82c5
   EXContacts: bc06f42aa1bc7fb5ed0f5b29287f772faa33ad55
@@ -1175,13 +1175,13 @@ SPEC CHECKSUMS:
   EXGL: 468113f7d19c139873e8e2b809ddef064ba847c0
   EXGL_CPP: dcca866c4f6af6694a12217fb2db3325acd19b57
   EXGoogleSignIn: d61beec381962b350f6ed60c9b65ae46ca26ef12
-  EXHaptics: 7b00d17689431152ab194ab2b800d6e752b2737d
+  EXHaptics: 718e4b457673bd88384a7fbb6f357c2138c771b0
   EXImageLoader: d3531a3fe530b22925c19977cb53bb43e3821fe6
   EXImageManipulator: a5bec1d69308fa1f091378f6461ae348ec83105d
   EXImagePicker: 958720afb9395ee1168dcda28d9915345c4e7cae
   EXInAppPurchases: e54068db701c8879d975a1f304b2d00e6fc8eece
   EXKeepAwake: f4105ef469be7b283f66ce2d7234bb71ac80cd26
-  EXLinearGradient: eac99517b8e66a8480fe0e212bdc7c0d5a12e163
+  EXLinearGradient: 36053f529a48cc7534d6125b0ddc8dd17e091fdd
   EXLocalAuthentication: e6347880c31bc3b9693933780d3bc84823fe0698
   EXLocalization: 356f4e16a606cec21a77d6250528fde526152b45
   EXLocation: bdf1af6aa8fc4f4dc1fd21aa39760484026f8a5d
@@ -1211,7 +1211,7 @@ SPEC CHECKSUMS:
   EXStoreReview: c7148fdc794a7e32a454eedda801360226fa8b4e
   EXStructuredHeaders: 384ccdf0c09ed0be8fc73d4b2d70e436cd195975
   EXTaskManager: 91fef764a2ec7690aa8070f862098df064facdc4
-  EXTrackingTransparency: dc21f285b53a1780e77d40fd888573f50615ccfc
+  EXTrackingTransparency: 212dcc45e24c0e3ec8ea89e4d93c1d123c5a1fb4
   EXUpdatesInterface: b68e78b912a03fff7901a5f46ec200c45e3506a5
   EXVideoThumbnails: 0a74ef339680e1aa52e30c53bc56990e9d8af0e8
   EXWebBrowser: b244cd85281a2b8f90a4ce81d674e3dc4f4ccc5e
